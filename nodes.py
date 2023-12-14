@@ -71,22 +71,13 @@ class AstarNode:
 
         return neighbours
 
-        """         
-        neighbours =  [
-                        (self.pos[0] + 1, self.pos[1]), (self.pos[0] - 1, self.pos[1]), 
-                        (self.pos[0], self.pos[0] + 1), (self.pos[0], self.pos[0] - 1),
-                        (self.pos[0] + 1, self.pos[1] + 1), (self.pos[0] - 1, self.pos[1] + 1),
-                        (self.pos[0] + 1, self.pos[1] - 1), (self.pos[0] - 1, self.pos[1] - 1)
-                      ]
-        return neighbours
-        """
     
 class VisualNode(pg.sprite.Sprite): 
     def __init__(self, WW : int, WH : int, position : tuple, size : tuple, color : tuple = (0, 0 ,0), eval_status = None) -> None:
         super(VisualNode, self).__init__()
         self.surf = pg.Surface(size)
         self.surf.fill(color)
-        self.map_position = (position[0], abs(position[1]) if position[1] < 0 else -position[1])      #((abs(position[0]) if position[0] < 0 else -position[0]), (abs(position[1]) if position[1] < 0 else -position[1]))
+        self.map_position = (position[0], abs(position[1]) if position[1] < 0 else -position[1]) #((abs(position[0]) if position[0] < 0 else -position[0]), (abs(position[1]) if position[1] < 0 else -position[1]))
         self.rect = self.surf.get_rect(center=((self.map_position[0] * (size[0] * 2) + WW) / 2, (self.map_position[1] * (size[1] * 2) + WH) / 2))
 
         self.WW = WW
@@ -94,7 +85,7 @@ class VisualNode(pg.sprite.Sprite):
         self.Astar_position = position
 
         self.eval_status = eval_status
-
+    
     def __str__(self) -> str:
         return f"size: {self.surf}, position: {self.rect}, Astar position: {self.Astar_position}"
 
