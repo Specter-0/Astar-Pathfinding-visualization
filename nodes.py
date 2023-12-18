@@ -19,21 +19,22 @@ class AstarNode:
         return self.g_cost() + self.h_cost(goal)
 
     def g_cost(self, path : list = [None]) -> int:
-        path = self.get_path() if path == [None] else path
-        cost : int = 0
-        for node in path:
-            dx, dy = abs(abs(self.pos[0]) - abs(node.pos[0])), abs(abs(self.pos[1]) - abs(node.pos[1]))
+        cost = 0
+        node = self
+        while node.parent is not None:
+            dx, dy = abs(node.pos[0] - node.parent.pos[0]), abs(node.pos[1] - node.parent.pos[1])
             cost += 14 if dx != 0 and dy != 0 else 10
-        return cost 
+            node = node.parent
+        return cost
     
     def h_cost(self, goal) -> int: 
         cx, cy = abs(self.pos[0] - goal.pos[0]), abs(self.pos[1] - goal.pos[1])
-        return 14 * cy + 10 * cx - cy if cx > cy else 14 * cx + 10 * cy
+        return 14 * min(cx, cy) + 10 * abs(cx - cy)
     
 
     def update_path(self, new_parent : object) -> int:
-        path = self.get_path()
-        path[0] = new_parent
+        path = self.get_path(True)
+        path[-1] = new_parent
         return self.g_cost(path)
 
     def optimize_path(self, current : object) -> int:
@@ -50,7 +51,7 @@ class AstarNode:
                 break
             path.insert(0, parent)
             parent = parent.parent
-        
+            
         if include_self:
             path.insert(-1, self)
         

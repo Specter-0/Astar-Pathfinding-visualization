@@ -25,6 +25,7 @@ class AstarRuntime:
         for neighbour_position in current.find_neighbours():
             if neighbour_position in self.closed.keys() or neighbour_position in self.obstacles.keys() or self.out_of_bounds(neighbour_position):
                 continue
+            
             neighbour = self.define_neighbour(neighbour_position, current)
             
             neighbour.optimize_path(current)
@@ -34,22 +35,20 @@ class AstarRuntime:
 
     def loop_tick(self):
         while True:
-            rtrn = self.tick()
-            if rtrn != None:
-                return rtrn
+            info = self.tick()
+            if info != None:
+                return info
     
     def Astar_generator(self):
         while True:
-            rtrn = self.tick()
+            info = self.tick()
             yield {"frontier": [x for x in self.frontier.keys()], "closed": [x for x in self.closed.keys()], "obstacles": [x for x in self.obstacles.keys()], "start": self.start.position(), "goal": self.goal.position()}
-            if rtrn != None:
-                yield {"path": [x.position() for x in rtrn]}
+            if info != None:
+                yield {"path": [x.position() for x in info]}
                 return
             
     def out_of_bounds(self, position : tuple) -> bool:
-        if abs(position[0]) > self.map_size or abs(position[1]) > self.map_size:
-            return True
-        return False 
+        return abs(position[0]) > self.map_size or abs(position[1]) > self.map_size
     
     def find_viable_node(self):
         low = list(self.frontier.values())[0]
@@ -60,7 +59,7 @@ class AstarRuntime:
             if nodeFcost < lowFcost:
                 low = node
             
-            elif nodeFcost == lowFcost:
+            elif nodeFcost > lowFcost:
                 if node.h_cost(self.goal) < low.h_cost(self.goal):
                     low = node
         return low

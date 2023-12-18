@@ -46,8 +46,8 @@ display = pg.display.set_mode((WW, WH))
 
 clock = pg.time.Clock()
 
-obstacles = [(4, 4), (5, 4), (0, 3), (0, 4), (0, 5),(2, 2), (0, 2), (0, -2), (1, -2), (-1, -2),(1, 2), (-2, 2), (-1, 2), (2, 1), (2, 0), (2, -1), (2, -2), (-2, 1), (-2, 0)]
-Astar = AstarRuntime(AstarNode((0, 0), None), AstarNode((5, 5), None), MAP_SIZE, obstacles)
+obstacles = [(-3, 5), (-2, 4), (-1, 3), (-2, 5), (0, 3), (-1, 3), (-2, 3), (-3, 3), (-4, 3)]
+Astar = AstarRuntime(AstarNode((-5, 5), None), AstarNode((5, 5), None), MAP_SIZE, obstacles)
 
 # -------------------- Create Nodes --------------------- #
 visual_nodes = {}
