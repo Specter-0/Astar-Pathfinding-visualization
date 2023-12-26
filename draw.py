@@ -26,7 +26,7 @@ def check_quit(event):
 
 pg.init()
 
-FPS = 1000
+FPS = 10
 WH = 700 # window-height
 WW = 1000 # window-width
 SM = (WW / 2, WH / 2) # center of screen
